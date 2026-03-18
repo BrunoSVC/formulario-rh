@@ -1,0 +1,50 @@
+<h2>Painel de Candidatos</h2>
+
+<!-- BOTÃO -->
+<form method="GET" action="/admin">
+    <button type="submit">Gerar link de cadastro</button>
+</form>
+
+<br>
+<button onclick="copiarLink()">Copiar</button>
+
+<script>
+function copiarLink(){
+    const input = document.querySelector("input");
+    input.select();
+    document.execCommand("copy");
+    alert("Link copiado!");
+}
+</script>
+
+<!-- MOSTRAR LINK -->
+{% if link %}
+<p><strong>Link gerado:</strong></p>
+<input type="text" value="{{ link }}" style="width:100%" readonly>
+{% endif %}
+
+<br><br>
+
+<table border="1">
+
+<tr>
+<th>Nome</th>
+<th>Email</th>
+<th>Telefone</th>
+<th>Currículo</th>
+<th>Documento</th>
+</tr>
+
+{% for candidato in dados %}
+
+<tr>
+<td>{{ candidato[0] }}</td>
+<td>{{ candidato[1] }}</td>
+<td>{{ candidato[2] }}</td>
+<td>{{ candidato[3] }}</td>
+<td>{{ candidato[4] }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
