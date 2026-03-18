@@ -17,7 +17,11 @@ secret = URLSafeTimedSerializer("chave_super_secreta")
 
 def gerar_link():
     token = secret.dumps("acesso_formulario")
-    link = f"http://127.0.0.1:5000/formulario/{token}"
+
+    base_url = request.host_url  # pega automaticamente a URL correta
+
+    link = f"{base_url}formulario/{token}"
+
     return link
 
 # 4️⃣ Rotas
@@ -91,8 +95,4 @@ def admin():
 
 # 5️⃣ Rodar app (SEMPRE POR ÚLTIMO)
 if __name__ == "__main__":
-    print("Link de teste:", gerar_link())  # gera link no terminal
     app.run(debug=True)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
