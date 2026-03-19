@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, session
 import os
 from openpyxl import Workbook, load_workbook
 from itsdangerous import URLSafeTimedSerializer
@@ -13,7 +13,11 @@ ARQUIVO_EXCEL = "candidatos.xlsx"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # 3️⃣ Segurança (token)
-secret = URLSafeTimedSerializer("chave_super_secreta")
+app = Flask(__name__)
+app.secret_key = "chave_super_secreta_123"
+
+USUARIO = "admin"
+SENHA = "1234"
 
 def gerar_link():
     token = secret.dumps("acesso_formulario")
@@ -70,13 +74,26 @@ def enviar():
 
     return "Cadastro enviado com sucesso!"
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        senha = request.form["senha"]
+
+        if usuario == USUARIO and senha == SENHA:
+            session["logado"] = True
+            return redirect("/admin")
+        else:
+            return "Usuário ou senha inválidos"
+
+    return render_template("login.html")
 
 @app.route("/admin")
 def admin():
 
-    from openpyxl import load_workbook
+    if not session.get("logado"):
+        return redirect("/login")
 
-    # gerar link
     link = gerar_link()
 
     try:
@@ -91,7 +108,11 @@ def admin():
         dados.append(linha)
 
     return render_template("admin.html", dados=dados, link=link)
-   
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
 # 5️⃣ Rodar app (SEMPRE POR ÚLTIMO)
 if __name__ == "__main__":
