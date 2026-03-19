@@ -3,21 +3,24 @@ import os
 from openpyxl import Workbook, load_workbook
 from itsdangerous import URLSafeTimedSerializer
 
-# 1️⃣ Criar app
+# Criar app
 app = Flask(__name__)
+app.secret_key = "chave_super_secreta_123"
 
-# 2️⃣ Configurações
+# Configurações
 UPLOAD_FOLDER = "uploads"
 ARQUIVO_EXCEL = "candidatos.xlsx"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# 3️⃣ Segurança (token)
-app = Flask(__name__)
-app.secret_key = "chave_super_secreta_123"
+# Segurança (token)
+secret = URLSafeTimedSerializer("chave_super_secreta")
 
+# Login
 USUARIO = "admin"
 SENHA = "1234"
+
+secret = URLSafeTimedSerializer("chave_super_secreta")
 
 def gerar_link():
     token = secret.dumps("acesso_formulario")
