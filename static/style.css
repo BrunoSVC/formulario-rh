@@ -1,51 +1,86 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color:#005CA9; /* azul SEBRAE */
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-form{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    width:350px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+/* Fundo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0A3D91;
 }
 
-label{
-    font-weight:bold;
-    color:#005CA9;
+/* Container maior */
+.container {
+    background: white;
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
-input{
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:5px;
+/* Títulos */
+h2 {
+    color: #0A3D91;
+    margin-bottom: 20px;
 }
 
-input:focus{
-    outline:none;
-    border-color:#005CA9;
+/* Botões */
+button {
+    padding: 10px 15px;
+    background: #0A3D91;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-button{
-    width:100%;
-    padding:10px;
-    background:#005CA9;
-    color:white;
-    border:none;
-    border-radius:5px;
-    font-size:16px;
-    cursor:pointer;
+button:hover {
+    background: #072d6a;
 }
 
-button:hover{
-    background:#004080;
+/* Campo de link */
+.link-box {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0 20px;
+}
+
+.link-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #0A3D91;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #f5f5f5;
+}
+
+/* Logout */
+.logout {
+    margin-top: 20px;
+    display: inline-block;
+    color: red;
 }

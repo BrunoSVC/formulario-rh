@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_from_directory
 import os
 from openpyxl import Workbook, load_workbook
 from itsdangerous import URLSafeTimedSerializer
@@ -6,6 +6,10 @@ from itsdangerous import URLSafeTimedSerializer
 # Criar app
 app = Flask(__name__)
 app.secret_key = "chave_super_secreta_123"
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 # Configurações
 UPLOAD_FOLDER = "uploads"
@@ -18,7 +22,7 @@ secret = URLSafeTimedSerializer("chave_super_secreta")
 
 # Login
 USUARIO = "admin"
-SENHA = "1234"
+SENHA = "49244538890"
 
 secret = URLSafeTimedSerializer("chave_super_secreta")
 
@@ -75,7 +79,7 @@ def enviar():
 
     wb.save(ARQUIVO_EXCEL)
 
-    return "Cadastro enviado com sucesso!"
+    return render_template("sucesso.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -109,6 +113,23 @@ def admin():
 
     for linha in planilha.iter_rows(min_row=2, values_only=True):
         dados.append(linha)
+
+    return render_template("admin.html", dados=dados, link=link)
+
+@app.route("/gerar_link")
+def gerar_link_rota():
+
+    if not session.get("logado"):
+        return redirect("/login")
+
+    link = gerar_link()
+
+    try:
+        wb = load_workbook(ARQUIVO_EXCEL)
+        planilha = wb.active
+        dados = [linha for linha in planilha.iter_rows(min_row=2, values_only=True)]
+    except:
+        dados = []
 
     return render_template("admin.html", dados=dados, link=link)
 

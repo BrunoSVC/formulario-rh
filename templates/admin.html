@@ -1,51 +1,65 @@
-<h2>Painel de Candidatos</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-<!-- BOTÃO -->
-<a href="/admin">
-    <button type="button">Gerar link de cadastro</button>
-</a>
-<a href="/logout">Sair</a>
+<div class="container">
 
-<br>
-<button onclick="copiarLink()">Copiar</button>
+    <h2>Painel de Recrutamento</h2>
 
+    <!-- GERAR LINK -->
+    <a href="/admin">
+        <button>🔄 Gerar novo link</button>
+    </a>
+
+    <p><strong>Link para candidatos:</strong></p>
+
+    <div class="link-box">
+        <input type="text" id="linkInput" value="{{ link }}" readonly>
+        <button onclick="copiarLink()">📋 Copiar</button>
+    </div>
+
+    <!-- TABELA -->
+    <h3>Candidatos cadastrados</h3>
+
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Currículo</th>
+            <th>Documento</th>
+        </tr>
+
+        {% for d in dados %}
+        <tr>
+            <td>{{ d[0] }}</td>
+            <td>{{ d[1] }}</td>
+            <td>{{ d[2] }}</td>
+            <td><a href="/uploads/{{ d[0] }}" target="_blank">Ver</a></td>
+            <td>{{ d[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/logout" class="logout">Sair</a>
+
+</div>
+
+<!-- SCRIPT COPIAR -->
 <script>
-function copiarLink(){
-    const input = document.querySelector("input");
-    input.select();
+function copiarLink() {
+    var copyText = document.getElementById("linkInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
+
     alert("Link copiado!");
 }
 </script>
 
-<!-- MOSTRAR LINK -->
-{% if link %}
-<p><strong>Link gerado:</strong></p>
-<input type="text" value="{{ link }}" style="width:100%" readonly>
-{% endif %}
-
-<br><br>
-
-<table border="1">
-
-<tr>
-<th>Nome</th>
-<th>Email</th>
-<th>Telefone</th>
-<th>Currículo</th>
-<th>Documento</th>
-</tr>
-
-{% for candidato in dados %}
-
-<tr>
-<td>{{ candidato[0] }}</td>
-<td>{{ candidato[1] }}</td>
-<td>{{ candidato[2] }}</td>
-<td>{{ candidato[3] }}</td>
-<td>{{ candidato[4] }}</td>
-</tr>
-
-{% endfor %}
-
-</table>
+</body>
+</html>
